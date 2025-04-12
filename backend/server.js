@@ -7,6 +7,7 @@ import voiceCommanderRoutes from "./routes/voiceCommander.js";
 // import pythonRoute from "./routes/pythonRoute.js"; 
 // import connectDB from "./db/connect.js";
 //  import ngrok from 'ngrok';
+import roadmapRouter from "./routes/roadmap.js";
 dotenv.config();
  
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.json());
 // app.use('/api/python', pythonRoute);
 app.use("/api/voice", voiceCommanderRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/roadmap",roadmapRouter);
  
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

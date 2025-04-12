@@ -10,8 +10,40 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { SidebarTrigger } from "@/components/sidebar-provider"
 import { UserProfileDialog } from "@/components/user-profile-dialog"
 import GoogleTranslate from "@/components/google-translate"
+import GeminiChatbot from "@/components/GeminiChatbot"
+
 export function DashboardHeader() {
   const [showUserProfile, setShowUserProfile] = useState(false)
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [detectedText, setDetectedText] = useState("");
+
+  const handleRunPython = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/python/run-python");
+      // console.log("Detected res:", res);
+      // const data = await res.json();
+      // console.log("Detected data:", data);
+      // if (data.output) {
+      //   const text = data.output.trim(); // Use the final predicted string
+      //   console.log("Detected Text:", text); // Print the detected text
+        // setDetectedText(text);
+        // setIsChatbotOpen(true); // Open chatbot after receiving detected text
+        const data = await res.json();
+        const { navigateTo } = data;
+            
+            if (navigateTo) {
+              // setVoiceStatus(Navigating to ${navigateTo}...);
+              window.location.href = `/${navigateTo.toLowerCase()}`;
+            } else {
+              console.error("Destination not found in response:", data);
+              // setVoiceStatus("Sorry, couldn't determine the destination.");
+              // setTimeout(() => setVoiceStatus(""), 3000);
+            }
+      
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-white px-6 w-full">
@@ -20,10 +52,10 @@ export function DashboardHeader() {
       <div className="flex flex-1 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/dashboard" className="flex items-center">
-            <div className="h-8 w-8 rounded-full bg-teal-600 flex items-center justify-center mr-2">
+            {/* <div className="h-8 w-8 rounded-full bg-teal-600 flex items-center justify-center mr-2">
               <span className="text-white font-semibold text-sm">SK</span>
-            </div>
-            <span className="hidden font-bold sm:inline-block">SkillSakhi</span>
+            </div> */}
+            <h1 className="text-xl font-semibold tracking-tight">Welcome back, Alesia 👋</h1>
           </Link>
         </div>
 
@@ -33,10 +65,23 @@ export function DashboardHeader() {
         
 
           {/* ISL Chatbot Button */}
-          <Button variant="outline" size="sm" className="gap-1">
+          <div className="flex items-center gap-5"></div>
+          <Button variant="outline" size="sm" className="gap-1"
+          onClick={handleRunPython}>
             <MessageSquare className="h-4 w-4" />
             <span className="hidden sm:inline-block">ISL Chatbot</span>
           </Button>
+          
+            {/* <Button
+              onClick={handleRunPython}
+              variant="outline"
+              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-colors duration-200"
+            >
+              <Image src="/ISL.png" alt="ISL Chatbot" width={20} height={20} />
+              ISL Chatbot
+            </Button> */}
+
+          <GeminiChatbot isOpen={isChatbotOpen} onClose={() => setIsChatbotOpen(false)} detectedText={detectedText} />
 
           <div className="hidden md:flex relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />

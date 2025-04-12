@@ -6,9 +6,7 @@ import { RecommendedCourses } from "@/components/recommended-courses"
 export default function DashboardPage() {
   return (
     <div className="space-y-8 w-full">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Welcome back, Alesia 👋</h1>
-      </div>
+      {/* Welcome message moved to header, so removed from here */}
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <UserStats />

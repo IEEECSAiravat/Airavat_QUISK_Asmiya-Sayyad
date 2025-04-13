@@ -1,1 +1,1 @@
-# Airavat_QUISK_Asmiya-Sayyad
+# Airavat_QUISK

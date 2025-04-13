@@ -8,7 +8,9 @@ import voiceCommander from './routes/voiceCommander.js';
 // import pythonRoute from "./routes/pythonRoute.js"; 
 // import connectDB from "./db/connect.js";
 //  import ngrok from 'ngrok';
+import sendwhatsapp from "./routes/sendwhatsapp.js";
 import roadmapRouter from "./routes/roadmap.js";
+import vrRouter from "./routes/arvr.js"; // Import the VR router
 dotenv.config();
  
 const app = express();
@@ -30,6 +32,8 @@ app.use('/api/voice', voiceCommander);
 // app.use("/api/voice", voiceCommanderRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/roadmap",roadmapRouter);
+app.use("/api/metaverse",vrRouter);
+app.use("/api/sendWP", sendwhatsapp);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

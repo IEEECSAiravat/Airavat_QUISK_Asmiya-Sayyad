@@ -23,73 +23,112 @@ interface LinkedInJob {
   company_logo_url: string
 }
 
-// Mock job data as fallback
+// Mock job data as fallback - Updated with diverse jobs and rupee salaries
 const mockJobListings = [
   {
     id: 1,
-    title: "Frontend Developer",
-    company: "TechCorp",
-    location: "Remote",
+    title: "Tailoring and Stitching Instructor",
+    company: "Textile Training Institute",
+    location: "Mumbai",
     type: "Full-time",
-    salary: "$80,000 - $100,000",
+    salary: "₹18,000 - ₹25,000",
     posted: "2 days ago",
-    skills: ["React", "TypeScript", "Tailwind CSS"],
-    description: "We're looking for an experienced Frontend Developer to join our team...",
+    skills: ["Pattern Making", "Garment Construction", "Hand Embroidery"],
+    description:
+      "Looking for an experienced tailor to teach stitching and tailoring skills to women in our vocational training program...",
   },
   {
     id: 2,
-    title: "Data Scientist",
-    company: "DataWorks",
-    location: "Remote",
+    title: "Professional Cook",
+    company: "Spice Garden Restaurant",
+    location: "Delhi",
     type: "Full-time",
-    salary: "$90,000 - $120,000",
+    salary: "₹20,000 - ₹30,000",
     posted: "1 day ago",
-    skills: ["Python", "TensorFlow", "SQL"],
-    description: "Join our data science team to build machine learning models...",
+    skills: ["Indian Cuisine", "Food Presentation", "Menu Planning"],
+    description:
+      "Join our kitchen team to prepare authentic Indian dishes. Experience in commercial cooking required...",
   },
   {
     id: 3,
-    title: "UX/UI Designer",
-    company: "DesignHub",
-    location: "Remote",
+    title: "Handicraft Artisan",
+    company: "Craft Bazaar",
+    location: "Jaipur",
     type: "Contract",
-    salary: "$70 - $90 per hour",
+    salary: "₹15,000 - ₹22,000",
     posted: "3 days ago",
-    skills: ["Figma", "Adobe XD", "User Research"],
-    description: "Looking for a creative designer to improve our product experience...",
+    skills: ["Traditional Crafts", "Jewelry Making", "Pottery"],
+    description:
+      "Create handmade crafts for our retail and export business. Training provided for specific techniques...",
   },
   {
     id: 4,
-    title: "DevOps Engineer",
-    company: "CloudSystems",
-    location: "Remote",
+    title: "Beauty Salon Technician",
+    company: "Glamour Beauty Parlour",
+    location: "Bangalore",
     type: "Full-time",
-    salary: "$95,000 - $115,000",
+    salary: "₹16,000 - ₹25,000",
     posted: "Just now",
-    skills: ["AWS", "Docker", "Kubernetes", "CI/CD"],
-    description: "Help us build and maintain our cloud infrastructure...",
+    skills: ["Facial Treatments", "Hair Styling", "Makeup Application"],
+    description: "Provide beauty services to clients including facials, threading, and makeup application...",
   },
   {
     id: 5,
-    title: "Product Manager",
-    company: "ProductLabs",
+    title: "Data Entry Operator",
+    company: "Digital Solutions",
     location: "Remote",
-    type: "Full-time",
-    salary: "$100,000 - $130,000",
+    type: "Part-time",
+    salary: "₹12,000 - ₹18,000",
     posted: "5 days ago",
-    skills: ["Product Strategy", "Agile", "User Stories"],
-    description: "Lead our product development process from conception to launch...",
+    skills: ["MS Excel", "Typing", "Data Management"],
+    description:
+      "Work from home entering data into our systems. Requires basic computer skills and attention to detail...",
   },
   {
     id: 6,
-    title: "Backend Developer",
-    company: "ServerTech",
-    location: "Remote",
+    title: "Frontend Developer",
+    company: "TechCorp India",
+    location: "Hyderabad",
     type: "Full-time",
-    salary: "$85,000 - $110,000",
+    salary: "₹5,00,000 - ₹8,00,000",
     posted: "1 week ago",
-    skills: ["Node.js", "Express", "MongoDB"],
-    description: "Build robust backend systems for our growing platform...",
+    skills: ["React", "TypeScript", "Tailwind CSS"],
+    description: "Build responsive web applications using modern frontend technologies...",
+  },
+  {
+    id: 7,
+    title: "Catering Business Owner",
+    company: "Self-Employed",
+    location: "Any Location",
+    type: "Entrepreneurship",
+    salary: "₹25,000 - ₹60,000",
+    posted: "4 days ago",
+    skills: ["Cooking", "Business Management", "Customer Service"],
+    description:
+      "Start your own catering business with our support program. We provide training, initial equipment, and marketing assistance...",
+  },
+  {
+    id: 8,
+    title: "Textile Quality Inspector",
+    company: "Fashion Fabrics Ltd",
+    location: "Surat",
+    type: "Full-time",
+    salary: "₹22,000 - ₹30,000",
+    posted: "6 days ago",
+    skills: ["Fabric Knowledge", "Quality Control", "Attention to Detail"],
+    description:
+      "Inspect textiles and garments for quality assurance. Previous experience in textile industry preferred...",
+  },
+  {
+    id: 9,
+    title: "Home Tutor",
+    company: "Learning Tree Education",
+    location: "Multiple Cities",
+    type: "Part-time",
+    salary: "₹200 - ₹500 per hour",
+    posted: "3 days ago",
+    skills: ["Teaching", "Subject Knowledge", "Patience"],
+    description: "Teach primary or secondary school subjects to students in their homes. Flexible hours available...",
   },
 ]
 
@@ -105,6 +144,7 @@ export default function JobsPage() {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
   const [experienceLevel, setExperienceLevel] = useState("all")
   const [page, setPage] = useState(1)
+  const [whatsappStatus, setWhatsappStatus] = useState<string | null>(null)
 
   // Calculate days ago from posting date
   const getDaysAgo = (postingDate: string): string => {
@@ -128,6 +168,7 @@ export default function JobsPage() {
 
     setLoading(true)
     setError(null)
+    setWhatsappStatus(null)
     setPage(1) // Reset to page 1 for new searches
 
     try {
@@ -176,6 +217,20 @@ export default function JobsPage() {
       if (response.data && Array.isArray(response.data) && response.data.length > 0) {
         setLinkedInJobs(response.data)
         setShowMockJobs(false)
+
+        // Send the job data to your backend for WhatsApp message
+        try {
+          const wpResponse = await axios.post("http://localhost:4000/api/sendWP", {
+            jobs: response.data.slice(0, 3), // Send only first 3 jobs to avoid large payloads
+          })
+
+          if (wpResponse.status === 200) {
+            setWhatsappStatus("Job alerts sent to your WhatsApp!")
+          }
+        } catch (wpError) {
+          console.error("Failed to send WhatsApp notification:", wpError)
+          setWhatsappStatus("Could not send job alerts to WhatsApp")
+        }
       } else {
         setLinkedInJobs([])
         setError("No jobs found. Try different keywords or filters.")
@@ -260,18 +315,18 @@ export default function JobsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Find Your Dream Job</h1>
-        <p className="text-teal-600">Discover remote opportunities that match your skills and interests</p>
+        <p className="text-gray-600">Discover opportunities that match your skills and interests</p>
       </div>
 
       {/* Search and Filter Section */}
       <div className="bg-white rounded-xl shadow-md p-6 mb-8">
         <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-400" size={20} />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
               placeholder="Search jobs, skills, or companies"
-              className="w-full pl-10 pr-4 py-3 border border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -315,7 +370,7 @@ export default function JobsPage() {
         {showAdvancedFilters && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <div>
-              <label htmlFor="job-type" className="block text-sm font-medium text-teal-700 mb-1">
+              <label htmlFor="job-type" className="block text-sm font-medium text-gray-700 mb-1">
                 Job Type
               </label>
               <Select value={jobType} onValueChange={setJobType}>
@@ -331,12 +386,13 @@ export default function JobsPage() {
                   <SelectItem value="part-time">Part-time</SelectItem>
                   <SelectItem value="contract">Contract</SelectItem>
                   <SelectItem value="freelance">Freelance</SelectItem>
+                  <SelectItem value="entrepreneurship">Entrepreneurship</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <label htmlFor="location" className="block text-sm font-medium text-teal-700 mb-1">
+              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
                 Location
               </label>
               <Select value={location} onValueChange={setLocation}>
@@ -356,7 +412,7 @@ export default function JobsPage() {
             </div>
 
             <div>
-              <label htmlFor="date-posted" className="block text-sm font-medium text-teal-700 mb-1">
+              <label htmlFor="date-posted" className="block text-sm font-medium text-gray-700 mb-1">
                 Date Posted
               </label>
               <Select value={datePosted} onValueChange={setDatePosted}>
@@ -376,7 +432,7 @@ export default function JobsPage() {
             </div>
 
             <div>
-              <label htmlFor="experience" className="block text-sm font-medium text-teal-700 mb-1">
+              <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-1">
                 Experience Level
               </label>
               <Select value={experienceLevel} onValueChange={setExperienceLevel}>
@@ -400,6 +456,18 @@ export default function JobsPage() {
         )}
 
         {error && <div className="mt-4 p-3 bg-red-50 text-red-700 rounded-lg">{error}</div>}
+        {whatsappStatus && (
+          <div className="mt-4 p-3 bg-green-50 text-green-700 rounded-lg flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {whatsappStatus}
+          </div>
+        )}
       </div>
 
       {/* LinkedIn API Job Results */}
@@ -415,7 +483,7 @@ export default function JobsPage() {
                     <img
                       src={job.company_logo_url || "/placeholder.svg?height=40&width=40&query=company logo"}
                       alt={`${job.company_name} logo`}
-                      className="w-10 h-10 rounded object-contain border border-teal-100"
+                      className="w-10 h-10 rounded object-contain border border-gray-100"
                     />
                     <div>
                       <h3 className="text-lg font-semibold line-clamp-2">{job.job_position}</h3>
@@ -430,18 +498,18 @@ export default function JobsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center text-teal-500 mb-3">
+                  <div className="flex items-center text-gray-500 mb-3">
                     <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
                     <span className="text-sm line-clamp-1">{job.job_location}</span>
                   </div>
 
-                  <div className="flex items-center text-teal-500 mb-4">
+                  <div className="flex items-center text-gray-500 mb-4">
                     <Clock className="h-4 w-4 mr-1 flex-shrink-0" />
                     <span className="text-sm">Posted {getDaysAgo(job.job_posting_date)}</span>
                   </div>
                 </CardContent>
 
-                <CardFooter className="bg-teal-50 border-t pt-4">
+                <CardFooter className="bg-gray-50 border-t pt-4">
                   <a
                     href={job.job_link}
                     target="_blank"
@@ -511,18 +579,18 @@ export default function JobsPage() {
                     </span>
                   </div>
 
-                  <div className="flex items-center text-teal-500 mb-2">
+                  <div className="flex items-center text-gray-500 mb-2">
                     <MapPin className="h-4 w-4 mr-1" />
                     <span className="text-sm">{job.location}</span>
                   </div>
 
-                  <div className="text-teal-700 mb-4">
+                  <div className="text-gray-700 mb-4">
                     <p className="text-sm line-clamp-2">{job.description}</p>
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     {job.skills.map((skill, index) => (
-                      <span key={index} className="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">
+                      <span key={index} className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
                         {skill}
                       </span>
                     ))}
@@ -530,7 +598,7 @@ export default function JobsPage() {
                 </CardContent>
 
                 <CardFooter className="flex justify-between items-center border-t pt-4">
-                  <span className="text-teal-500 text-sm">{job.posted}</span>
+                  <span className="text-gray-500 text-sm">{job.posted}</span>
                   <span className="font-medium">{job.salary}</span>
                 </CardFooter>
               </Card>
@@ -540,7 +608,7 @@ export default function JobsPage() {
           {filteredMockJobs.length === 0 && (
             <div className="bg-white rounded-xl shadow-md p-16 text-center">
               <svg
-                className="w-16 h-16 text-teal-400 mx-auto mb-4"
+                className="w-16 h-16 text-gray-400 mx-auto mb-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -553,8 +621,8 @@ export default function JobsPage() {
                   d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <p className="text-xl text-teal-600">No jobs found matching your criteria</p>
-              <p className="text-teal-500 mt-2">Try adjusting your search or filters</p>
+              <p className="text-xl text-gray-600">No jobs found matching your criteria</p>
+              <p className="text-gray-500 mt-2">Try adjusting your search or filters</p>
             </div>
           )}
         </>

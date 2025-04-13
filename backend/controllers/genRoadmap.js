@@ -6,25 +6,24 @@ export default async function genRoadmap(req, res) {
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyBZuDWwC9QC6BortBUgRNN0Z_s23wxpCb4";
   
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro-exp-03-25" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   
-  // Enhanced system prompt for more detailed roadmaps
   const systemPrompt = `
-  You are an expert roadmap generator for learning paths. Based on the given input, generate a comprehensive, well-structured roadmap in JSON format.
+  You are an expert roadmap generator for learning paths. Based on the given input , generate a comprehensive, well-structured roadmap in JSON format.Understand the query well and think and then generate the roadmap.
   
   IMPORTANT GUIDELINES:
   1. Create a hierarchical structure with main categories and subcategories
   2. Each node should have:
-     - A unique ID (use descriptive strings like "frontend-basics" not numbers)
+     - A unique ID (use descriptive strings like "Frontend-Basics" not numbers)
      - A clear, concise title
      - A detailed description (2-4 sentences explaining what to learn and why it's important)
      - 2-5 high-quality learning resources with title and URL
-     - Difficulty level (beginner, intermediate, advanced)
-     - Estimated time to complete (in hours or days)
+     - Difficulty level (Beginner, Intermediate, Advanced)
+     - Estimated time to complete (in Hours or Days)
   3. Use meaningful dependencies between nodes
   4. Include practical milestones and projects throughout the roadmap
   5. Organize content in a logical learning sequence
-  6. For visual clarity, limit main categories to 4-7
+  6. For visual clarity, limit main categories to minimum 10 to max 15
   
   STRUCTURE THE JSON AS:
   {
@@ -65,7 +64,7 @@ export default async function genRoadmap(req, res) {
       ],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 8192, // Increased token limit for more detailed roadmaps
+        maxOutputTokens: 81920, // Increased token limit for more detailed roadmaps
       }
     });
     
@@ -139,7 +138,6 @@ function processRoadmap(roadmap) {
       }
     }
     
-    // Generate edges from dependencies if needed
     if (node.depends_on && Array.isArray(node.depends_on)) {
       node.depends_on.forEach(dependency => {
         // Check if this edge already exists
@@ -156,38 +154,6 @@ function processRoadmap(roadmap) {
       });
     }
   });
-  
-  // Sort nodes for better visual layout
-  let rootNodes = roadmap.nodes.filter(node => !node.depends_on || node.depends_on.length === 0);
-  
-  // If we have too many root nodes, try to reorganize
-  if (rootNodes.length > 7) {
-    // Find nodes that could be grouped together
-    // This is a simplistic approach - in a real app, you might want more sophisticated clustering
-    const mainCategories = rootNodes.slice(0, 5);
-    const otherNodes = rootNodes.slice(5);
-    
-    // Create a new "other" category if needed
-    if (otherNodes.length > 0) {
-      const otherId = "other-fundamentals";
-      roadmap.nodes.push({
-        id: otherId,
-        title: "Other Fundamentals",
-        description: "Additional foundational concepts for your learning journey.",
-        resources: [],
-        difficulty: "beginner",
-        color: "gray"
-      });
-      
-      // Connect the other nodes to this category
-      otherNodes.forEach(node => {
-        roadmap.edges.push({
-          from: otherId,
-          to: node.id
-        });
-      });
-    }
-  }
   
   return roadmap;
 }

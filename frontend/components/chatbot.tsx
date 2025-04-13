@@ -88,7 +88,7 @@ export function Chatbot() {
  
             if (navigateTo) {
               setVoiceStatus(`Navigating to ${navigateTo}...`);
-              window.location.href = `/${navigateTo.toLowerCase()}`;
+              window.location.href = `/dashboard/${navigateTo.toLowerCase()}`;
             } else {
               setVoiceStatus("Sorry, couldn't determine the destination.");
               setTimeout(() => setVoiceStatus(""), 3000);
@@ -207,13 +207,8 @@ export function Chatbot() {
                 key={index}
                 className={`mb-4 ${
                   msg.role === "user"
-
                     ? "ml-auto bg-white text-primary-foreground"
-                    : "mr-auto bg-white"
-
-                    ? "ml-auto bg-primary text-primary-foreground"
                     : "mr-auto bg-muted"
-
                 } rounded-lg p-3 max-w-[80%]`}
               >
                 {msg.content}

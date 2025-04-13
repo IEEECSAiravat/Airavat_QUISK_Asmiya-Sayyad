@@ -33,7 +33,7 @@ export function DashboardHeader() {
             
             if (navigateTo) {
               // setVoiceStatus(Navigating to ${navigateTo}...);
-              window.location.href = `/${navigateTo.toLowerCase()}`;
+              window.location.href = `/dashboard/${navigateTo.toLowerCase()}`;
             } else {
               console.error("Destination not found in response:", data);
               // setVoiceStatus("Sorry, couldn't determine the destination.");
@@ -55,7 +55,7 @@ export function DashboardHeader() {
             {/* <div className="h-8 w-8 rounded-full bg-teal-600 flex items-center justify-center mr-2">
               <span className="text-white font-semibold text-sm">SK</span>
             </div> */}
-            <h1 className="text-xl font-semibold tracking-tight">Welcome back, Alesia 👋</h1>
+            <h1 className="text-xl font-semibold tracking-tight">Welcome back, Priya 👋</h1>
           </Link>
         </div>
 
@@ -97,7 +97,7 @@ export function DashboardHeader() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                 <Avatar className="h-9 w-9">
-                  <AvatarImage src="/thoughtful-woman-profile.png" alt="User" />
+                  <AvatarImage src="/thoughtful-women.jpeg" alt="User" />
                   <AvatarFallback>AK</AvatarFallback>
                 </Avatar>
               </Button>

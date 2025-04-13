@@ -7,6 +7,7 @@ import { Search, TrendingUp, MessageSquare, Users, BookOpen, Code, Briefcase, Li
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import VRRoomRedirector from "@/components/arvr.tsx"
 
 interface Community {
   id: number
@@ -19,6 +20,7 @@ interface Community {
 
 const CommunityPage = () => {
   const [searchQuery, setSearchQuery] = useState("")
+
 
   const communities: Community[] = [
     // Tech Communities
@@ -382,6 +384,7 @@ const CommunityPage = () => {
           <p className="text-gray-600 mt-1">Connect, learn, and grow with peers in your field</p>
         </div>
         <div className="flex gap-3">
+            <VRRoomRedirector />
           <Button variant="outline" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
             <span>Trending</span>

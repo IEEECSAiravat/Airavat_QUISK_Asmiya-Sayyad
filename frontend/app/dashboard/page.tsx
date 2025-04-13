@@ -26,13 +26,13 @@ export default function DashboardPage() {
                 <div className="relative h-40 w-40">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <img
-                      src="/thoughtful-woman-profile.png"
+                      src="/thoughtful-women.jpeg"
                       alt="Profile"
                       className="h-32 w-32 rounded-full object-cover"
                     />
                   </div>
                 </div>
-                <h3 className="mt-4 text-xl font-semibold">Alesia Karapova</h3>
+                <h3 className="mt-4 text-xl font-semibold">Priya Borkar</h3>
                 <p className="text-sm text-muted-foreground">Basic Member</p>
 
                 <div className="mt-6 w-full">

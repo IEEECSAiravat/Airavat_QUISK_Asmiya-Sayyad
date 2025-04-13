@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 // import Hatbot from "@/components/hatbot";
 import ChatbotWidget from "@/components/chatbotWidget"
+// import VapiVoiceAssistant from "@/components/mockInterview"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
@@ -22,6 +23,8 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="light">{children}</ThemeProvider>
         {/* <Hatbot /> */}
         <ChatbotWidget />
+        {/* <VapiVoiceAssistant/> */}
+        
        
       </body>
     </html>

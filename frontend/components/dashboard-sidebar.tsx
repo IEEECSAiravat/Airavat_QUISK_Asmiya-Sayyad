@@ -130,11 +130,11 @@ export function DashboardSidebar() {
       href: "/dashboard/jobs",
       icon: Briefcase,
     },
-    {
-      name: "Events",
-      href: "/dashboard/events",
-      icon: Calendar,
-    },
+    // {
+    //   name: "Events",
+    //   href: "/dashboard/events",
+    //   icon: Calendar,
+    // },
     {
       name: "My Interviews",
       href: "/dashboard/interviews",

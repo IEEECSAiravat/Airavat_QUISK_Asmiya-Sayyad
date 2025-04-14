@@ -161,8 +161,8 @@ async function getProperKeyword(searchQuery, subsectionTitle, moduleTitle, cours
   try {
     const response = await genAI.getGenerativeModel({ model: "gemini-2.0-flash" }).generateContent(`
       Generate a short and effective keyword that can be searched for on YouTube for the following search query:
-      "${searchQuery}". In this query, give top priority to "${subsectionTitle}" followed by "${moduleTitle}". Also with every query include the key term from ""${courseTitle}"" that you feel must be searched for better results.
-      The keyword should not be more than 5 words .
+      "${searchQuery}". In this query, give top priority to "${subsectionTitle}" followed by "${moduleTitle}" and then "${courseTitle}".
+      The keyword should not be more than 4 words and should be a short phrase relevant to the topic.
     `);
  
     const keyword = response.response.text().trim();
